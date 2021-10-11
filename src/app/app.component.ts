@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  public title: string = 'CoinMarket'
+  public title: string = 'CoinMarket';
+  
+  constructor() { }
+
+  public message: string= "";
+
+  receiveMessage($event: any) {
+    this.message = $event
+  }
+  
 }

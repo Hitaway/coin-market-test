@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { CurrencyService } from '../../services/currency.service';
 @Component({
   selector: 'app-switch-currency',
   templateUrl: './switch-currency.component.html',
@@ -7,19 +7,12 @@ import { Component } from '@angular/core';
 })
 export class SwitchCurrencyComponent {
   
-  public currency: string[] = ['usd', 'eur'];
-  public currentCurrency: string = 'usd';
-
-  constructor() { }
-  
-  public getCurrentCurrency(): string {
-    return this.currentCurrency;
-  }
+  constructor (public currencyService: CurrencyService) { }
 
   // Switch currency
   public switchCurrency(currency: string) {
-    this.currentCurrency = currency;
-    console.log(this.currentCurrency);
+    this.currencyService.setCurrentCurrency(currency);
+    this.currencyService.sendChangeCurrencyEvent();
   }
 
 }
