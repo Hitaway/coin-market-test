@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { SwitchCurrencyComponent } from '../switch-currency/switch-currency.component';
 import { CoinGeckoApiService } from '../../services/coin-gecko-api.service';
+import { CurrencyService } from '../../services/currency.service';
 import { Coin } from './coin';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-table-crypto-currency',
@@ -10,12 +10,11 @@ import { Coin } from './coin';
   styleUrls: ['./table-crypto-currency.component.css']
 })
 export class TableCryptoCurrencyComponent implements OnInit {
+  
+  public clickEventSubscription: Subscription;
   public coins: Coin[] = [];
   public filteredCoints: Coin[] = [];
   public searchText: string = '';
-  // public numberCoin: number = 4900;
-  public perPage: number = 0;
-  public page: number = 1;
   public titles: string[] = [
     '#', 
     'TABLE.COIN', 
@@ -27,39 +26,31 @@ export class TableCryptoCurrencyComponent implements OnInit {
     'TABLE.MAX_SUPPLY'];
   
   constructor(
-    private _http: HttpClient,
-    private _coinGeckoApiService: CoinGeckoApiService) { }
-
-  ngOnInit(): void {
-    // this.numberOfCoins();
-    // let currency = this._switchCurrencyComponent.getCurrentCurrency();
-    this.callAPICoinGuecko('usd');
-    // this.coins = this._coinGeckoApiService.getCoins();
+    private _currencyService:CurrencyService, 
+    private _coinGeckoApiService: CoinGeckoApiService) {
+    this.clickEventSubscription = this._currencyService
+      .getClickEvent()
+      .subscribe(()=>{
+        this.updateTable();
+    })
   }
   
-  // public numberOfCoins(): void {
-  //   // calculer le nombre de page pour l'appelle de l'api
-  //   if (this.numberCoin < 250) {
-  //     this.perPage = this.numberCoin;
-  //   } else {
-  //     this.perPage = this.numberCoin%250;
-  //     this.page = Math.floor(this.numberCoin/250);
-  //   }
-  // }
-
-  public callAPICoinGuecko(currency: string): void {
-    for (let i=1; i <= 5; i ++) {
-      this._http.get<Coin[]>(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=2&page=${i}&sparkline=false`).subscribe(
-        (res) => {
-          this.coins = this.coins.concat(res);
-          this.coins = this.coins.sort((a, b) => a.market_cap_rank - b.market_cap_rank);
-          this.filteredCoints = this.coins;
-        },
-        (err) => console.error(err)
-      );
-    }
+  ngOnInit(): void {
+    this.getCoins();
   }
 
+  public updateTable(): void {
+    this.getCoins();
+  }
+  
+  public getCoins(): void {
+    this._coinGeckoApiService.getCoins()
+    .subscribe(coins => {
+      this.coins = coins;
+      this.filteredCoints = coins;
+    });
+  }
+  
   public searchCoin(): void {
     this.filteredCoints = this.coins.filter(
       (coin) =>

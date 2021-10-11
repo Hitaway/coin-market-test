@@ -9,17 +9,15 @@ import { TranslateService } from '@ngx-translate/core';
 export class SwitchLanguageComponent {
 
   public languages: string[] = ['en', 'es', 'fr'];
-  
-  constructor(public translate: TranslateService) {
-    // Register translation languages
+
+  constructor (public translate: TranslateService) {
     translate.addLangs(this.languages);
-    // Set default language
     translate.setDefaultLang('en');
   }
-  
+
   // Switch language
   public translateLanguageTo(lang: string) {
     this.translate.use(lang);
   }
-  
+
 }
