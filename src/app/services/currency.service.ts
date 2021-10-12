@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { currencyList } from './currency';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import { Observable, Subject } from 'rxjs';
 export class CurrencyService {
   
   public subject = new Subject<any>();
-  public currencyList: string[] = ['usd', 'eur', 'aud'];
+  public currencyList: string[] = currencyList;
   public currentCurrency: string = 'usd';
 
   public sendChangeCurrencyEvent(): void {
