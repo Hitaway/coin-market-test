@@ -15,15 +15,6 @@ export class TableCryptoCurrencyComponent implements OnInit {
   public coins: Coin[] = [];
   public filteredCoints: Coin[] = [];
   public searchText: string = '';
-  public titles: string[] = [
-    '#', 
-    'TABLE.COIN', 
-    'TABLE.PRICE',  
-    'TABLE.PRICE_CHANGE', 
-    'TABLE.24H_VOLUME', 
-    'TABLE.MARKET_CAP', 
-    'TABLE.CIRCULATING_SUPPLY', 
-    'TABLE.MAX_SUPPLY'];
   
   constructor(
     private _currencyService:CurrencyService, 

@@ -9,13 +9,20 @@ import { AppComponent } from './app.component';
 import { TableCryptoCurrencyComponent } from './components/table-crypto-currency/table-crypto-currency.component';
 import { SwitchLanguageComponent } from './components/switch-language/switch-language.component';
 import { SwitchCurrencyComponent } from './components/switch-currency/switch-currency.component';
+import { SortDirective } from './components/table-crypto-currency/sort.directive';
 
 // Factory function required during AOT compilation
 export function httpTranslateLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 @NgModule({
-  declarations: [AppComponent, TableCryptoCurrencyComponent, SwitchLanguageComponent, SwitchCurrencyComponent],
+  declarations: [
+    AppComponent, 
+    TableCryptoCurrencyComponent, 
+    SwitchLanguageComponent, 
+    SwitchCurrencyComponent,
+    SortDirective
+  ],
   imports: [
     BrowserModule, 
     HttpClientModule,
