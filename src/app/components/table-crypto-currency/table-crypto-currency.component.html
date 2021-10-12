@@ -1,12 +1,11 @@
 <input
     type="text"
-    placeholder="Search a Coin"
-    class="form-control bg-dark text-light border-0 my-4"
+    placeholder="{{ 'SEARCH_COIN' | translate }}"
     autofocus
     (keyup)="searchCoin()"
     [(ngModel)]="searchText"
 />
-<table class="table table-dark">
+<table>
     <thead>
         <tr>
             <th scope="col" [appSort]="coins" data-order="desc" data-name="market_cap_rank">#</th>
@@ -30,7 +29,7 @@
                     class="img-fluid me-4"
                 />
                 <span> {{ coin.name }} </span>
-                <span class="ms-3 text-muted text-uppercase"> {{ coin.symbol }} </span>
+                <span class="coin-symbol"> {{ coin.symbol }} </span>
             </td>
             <td> {{ coin.current_price }} </td>
             <td
