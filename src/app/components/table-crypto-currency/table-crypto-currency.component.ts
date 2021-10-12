@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CoinGeckoApiService } from '../../services/coin-gecko-api.service';
-import { CurrencyService } from '../../services/currency.service';
-import { Coin } from './coin';
+import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+
+import { Coin } from './coin';
+import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'app-table-crypto-currency',
@@ -18,7 +19,7 @@ export class TableCryptoCurrencyComponent implements OnInit {
   
   constructor(
     private _currencyService:CurrencyService, 
-    private _coinGeckoApiService: CoinGeckoApiService) {
+    private _http: HttpClient) {
     this.clickEventSubscription = this._currencyService
       .getClickEvent()
       .subscribe(()=>{
@@ -35,11 +36,17 @@ export class TableCryptoCurrencyComponent implements OnInit {
   }
   
   public getCoins(): void {
-    this._coinGeckoApiService.getCoins()
-    .subscribe(coins => {
-      this.coins = coins;
-      this.filteredCoints = coins;
-    });
+    let currency = this._currencyService.getCurrentCurrency();
+    for (let i=1; i <= 1; i ++) {
+      this._http.get<Coin[]>(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=250<&page=${i}&sparkline=false`).subscribe(
+        (res) => {
+          this.coins = this.coins.concat(res);
+          this.coins = this.coins.sort((a, b) => a.market_cap_rank - b.market_cap_rank);
+          this.filteredCoints = this.coins;
+        },
+        (err) => console.error(err)
+      );
+    }
   }
   
   public searchCoin(): void {
