@@ -32,12 +32,14 @@ export class TableCryptoCurrencyComponent implements OnInit {
   }
 
   public updateTable(): void {
+    this.coins = [];
     this.getCoins();
   }
   
   public getCoins(): void {
     let currency = this._currencyService.getCurrentCurrency();
     for (let i=1; i <= 1; i ++) {
+    // for (let i=1; i <= 4; i ++) {
       this._http.get<Coin[]>(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=250<&page=${i}&sparkline=false`).subscribe(
         (res) => {
           this.coins = this.coins.concat(res);

@@ -1,3 +1,28 @@
+.coin-img {
+    width: 1.5rem;
+    margin-right: 10px;
+}
+
 .coin-symbol {
     text-transform: uppercase;
+}
+
+th {
+    border-top: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+}
+
+td {
+    padding: 5px 8px;
+    height: 30px;
+    font-size: .875rem;
+    vertical-align: middle;
+}
+
+tr {
+    height: 70px;    
+}
+
+tr:not(:last-child) {
+    border-bottom: 1px solid #dee2e6;
 }
